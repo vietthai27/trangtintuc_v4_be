@@ -25,6 +25,6 @@ public class DanhMucCon {
     private DanhMucBaiBao danhMucBaiBao;
 
     @JsonIgnore
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "danhMucCon")
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "danhMucCon")
     private List<BaiBao> baiBao;
 }

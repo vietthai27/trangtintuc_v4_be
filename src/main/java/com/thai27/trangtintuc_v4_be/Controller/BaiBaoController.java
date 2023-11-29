@@ -1,5 +1,7 @@
 package com.thai27.trangtintuc_v4_be.Controller;
 
+import com.thai27.trangtintuc_v4_be.DTO.BaiBaoDetail;
+import com.thai27.trangtintuc_v4_be.DTO.DanhMucBaiBaoEdit;
 import com.thai27.trangtintuc_v4_be.Entity.BaiBao;
 import com.thai27.trangtintuc_v4_be.Exception.ResourceNotFoundException;
 import com.thai27.trangtintuc_v4_be.ServiceImplement.BaiBaoSrvImp;
@@ -22,13 +24,18 @@ public class BaiBaoController {
         return baiBaoSrvImp.getBaiBaoById(id);
     }
 
+    @GetMapping("/get/getBaiBaoDetailById/{id}")
+    public BaiBaoDetail getBaiBaoDetailById(@PathVariable Long id) throws ResourceNotFoundException {
+        return baiBaoSrvImp.getBaiBaoDetailById(id);
+    }
+
     @GetMapping("/get/getAllBaiBao")
-    public Page<BaiBao> getBaiBaoById(@RequestParam Integer pageNum,@RequestParam Integer pageSize) {
+    public Page<BaiBaoDetail> getAllBaiBao(@RequestParam Integer pageNum,@RequestParam Integer pageSize) {
         return baiBaoSrvImp.getAllBaiBao(pageNum,pageSize);
     }
 
     @GetMapping("/get/searchAllBaiBao")
-    public Page<BaiBao> getBaiBaoById(@RequestParam String tenBaiBao, @RequestParam Integer pageNum, @RequestParam Integer pageSize) {
+    public Page<BaiBaoDetail> searchAllBaiBao(@RequestParam String tenBaiBao, @RequestParam Integer pageNum, @RequestParam Integer pageSize) {
         return baiBaoSrvImp.searchAllBaiBao(tenBaiBao,pageNum,pageSize);
     }
 
@@ -37,14 +44,15 @@ public class BaiBaoController {
         return baiBaoSrvImp.findByOrderByNgayDangDesc();
     }
 
+
     @PostMapping("/modify/addBaiBao/{idDanhMucCon}")
     public BaiBao addBaiBao(@RequestBody BaiBao baiBao,@PathVariable Long idDanhMucCon) {
         return baiBaoSrvImp.addBaiBao(baiBao,idDanhMucCon);
     }
 
-    @PostMapping("/modify/editBaiBao/{id}")
-    public BaiBao editBaiBao(@PathVariable Long id, @RequestBody BaiBao baiBao) throws ResourceNotFoundException {
-        return baiBaoSrvImp.editBaiBao(id, baiBao);
+    @PostMapping("/modify/editBaiBao/{id}/{idCon}")
+    public BaiBao editBaiBao(@PathVariable Long id,@PathVariable Long idCon, @RequestBody BaiBao baiBao) throws ResourceNotFoundException {
+        return baiBaoSrvImp.editBaiBao(id, idCon, baiBao);
     }
 
     @DeleteMapping("/delete/deleteBaiBao/{id}")

@@ -5,6 +5,8 @@ import com.thai27.trangtintuc_v4_be.Exception.ResourceNotFoundException;
 import com.thai27.trangtintuc_v4_be.Repository.DanhMucBaiBaoRepo;
 import com.thai27.trangtintuc_v4_be.ServicerInterface.DanhMucBaiBaoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,6 +20,19 @@ public class DanhMucBaiBaoSrvImp implements DanhMucBaiBaoService {
     @Override
     public List<DanhMucBaiBao> getAllDanhMuc() {
         return danhMucBaiBaoRepo.findAll();
+    }
+
+    @Override
+    public Page<DanhMucBaiBao> searchAllDanhMuc(String search, int pageNum, int pageSize) {
+        PageRequest searchDanhMucPaging = PageRequest.of(pageNum,pageSize);
+        String searchLike = "%" + search + "%";
+        return danhMucBaiBaoRepo.findAllByTenDanhMucLikeIgnoreCase(searchLike,searchDanhMucPaging);
+    }
+
+    @Override
+    public Page<DanhMucBaiBao> getAllDanhMucPaging(int pageNum, int pageSize) {
+        PageRequest getAllDanhMucPaging = PageRequest.of(pageNum,pageSize);
+        return danhMucBaiBaoRepo.findAll(getAllDanhMucPaging);
     }
 
     @Override

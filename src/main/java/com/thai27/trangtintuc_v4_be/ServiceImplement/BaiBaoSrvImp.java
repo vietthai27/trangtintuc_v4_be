@@ -1,5 +1,7 @@
 package com.thai27.trangtintuc_v4_be.ServiceImplement;
 
+import com.thai27.trangtintuc_v4_be.DTO.BaiBaoDetail;
+import com.thai27.trangtintuc_v4_be.DTO.DanhMucBaiBaoEdit;
 import com.thai27.trangtintuc_v4_be.Entity.BaiBao;
 import com.thai27.trangtintuc_v4_be.Exception.ResourceNotFoundException;
 import com.thai27.trangtintuc_v4_be.Repository.BaiBaoRepo;
@@ -13,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -32,6 +35,13 @@ public class BaiBaoSrvImp implements BaiBaoService {
     }
 
     @Override
+    public BaiBaoDetail getBaiBaoDetailById(Long id) throws ResourceNotFoundException {
+        if(!baiBaoRepo.existsById(id)) throw new ResourceNotFoundException ("Không tìm thấy bài báo với id: "+ id);
+        else
+        return baiBaoRepo.getBaiBaoDetailById(id);
+    }
+
+    @Override
     public BaiBao addBaiBao(BaiBao baiBao, Long idDanhMucCon) {
         BaiBao addBaiBao = new BaiBao();
         addBaiBao.setThumbnail(baiBao.getThumbnail());
@@ -48,7 +58,7 @@ public class BaiBaoSrvImp implements BaiBaoService {
     }
 
     @Override
-    public BaiBao editBaiBao(Long id, BaiBao baiBao) throws ResourceNotFoundException {
+    public BaiBao editBaiBao(Long id,Long idCon, BaiBao baiBao) throws ResourceNotFoundException {
         if(!baiBaoRepo.existsById(id)) throw new ResourceNotFoundException ("Không tìm thấy bài báo với id: "+ id);
         else {
             BaiBao editBaiBao = baiBaoRepo.findById(id).orElse(null);
@@ -56,6 +66,7 @@ public class BaiBaoSrvImp implements BaiBaoService {
             editBaiBao.setTenBaiBao(baiBao.getTenBaiBao());
             editBaiBao.setTieuDe(baiBao.getTieuDe());
             editBaiBao.setNoiDung(baiBao.getNoiDung());
+            editBaiBao.setDanhMucCon(danhMucConRepo.getReferenceById(idCon));
             return baiBaoRepo.save(editBaiBao);
         }
     }
@@ -71,15 +82,17 @@ public class BaiBaoSrvImp implements BaiBaoService {
     }
 
     @Override
-    public Page<BaiBao> getAllBaiBao(Integer pageNum, Integer pageSize) {
+    public Page<BaiBaoDetail> getAllBaiBao(Integer pageNum, Integer pageSize) {
         PageRequest pageRequest = PageRequest.of(pageNum, pageSize);
-        return baiBaoRepo.findAll(pageRequest);
+        return baiBaoRepo.getAllBaiBao(pageRequest);
     }
 
     @Override
-    public Page<BaiBao> searchAllBaiBao(String tenBaiBao, Integer pageNum, Integer pageSize) {
+    public Page<BaiBaoDetail> searchAllBaiBao(String tenBaiBao, Integer pageNum, Integer pageSize) {
         PageRequest pageRequest = PageRequest.of(pageNum, pageSize);
         return baiBaoRepo.searchAllBaiBao(tenBaiBao, pageRequest);
     }
+
+
 
 }
