@@ -1,11 +1,14 @@
 package com.thai27.trangtintuc_v4_be.ServiceImplement;
 
+import com.thai27.trangtintuc_v4_be.DTO.QuanLyDanhMucCon;
 import com.thai27.trangtintuc_v4_be.Entity.DanhMucCon;
 import com.thai27.trangtintuc_v4_be.Exception.ResourceNotFoundException;
 import com.thai27.trangtintuc_v4_be.Repository.DanhMucBaiBaoRepo;
 import com.thai27.trangtintuc_v4_be.Repository.DanhMucConRepo;
 import com.thai27.trangtintuc_v4_be.ServicerInterface.DanhMucConService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -43,5 +46,17 @@ public class DanhMucConSrvImp implements DanhMucConService {
     @Override
     public void deleteDanhMucCon(Long id) {
         danhMucConRepo.deleteById(id);
+    }
+
+    @Override
+    public Page<QuanLyDanhMucCon> getDanhMucConByIdCha(int pageNum, int pageSize, Long idCha) {
+        PageRequest pageRequest = PageRequest.of(pageNum, pageSize);
+        return danhMucConRepo.getDanhMucConByIdCha(idCha,pageRequest);
+    }
+
+    @Override
+    public Page<QuanLyDanhMucCon> searchDanhMucConByIdCha(String search, int pageNum, int pageSize,Long idCha) {
+        PageRequest pageRequest = PageRequest.of(pageNum, pageSize);
+        return danhMucConRepo.searchDanhMucConByIdCha(search,idCha, pageRequest);
     }
 }
