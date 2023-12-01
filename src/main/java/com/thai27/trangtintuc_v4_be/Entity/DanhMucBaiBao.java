@@ -20,6 +20,6 @@ public class DanhMucBaiBao {
     private String tenDanhMuc;
 
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "danhMucBaiBao")
+    @OneToMany(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER, mappedBy = "danhMucBaiBao")
     private List<DanhMucCon> danhMucCon;
 }

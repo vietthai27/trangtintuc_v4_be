@@ -9,6 +9,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.Duration;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoField;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -18,6 +24,65 @@ public class BaiBaoController {
 
     @Autowired
     BaiBaoSrvImp baiBaoSrvImp;
+
+    @GetMapping("/get/test")
+    public void test() {
+
+        ArrayList<String> listdata = new ArrayList<String>();
+        ArrayList<String> listdata1 = new ArrayList<String>();
+        ArrayList<String> listdata2 = new ArrayList<String>();
+        ArrayList<String> listdata3 = new ArrayList<String>();
+        ArrayList<String> listdata4 = new ArrayList<String>();
+
+        for (int i = 1; i < 17; i++) {
+            listdata.add("Num " + i);
+        }
+
+        Long inst1 = System.nanoTime();
+
+        int i =0;
+        while(i < listdata.size()) {
+            listdata1.add(listdata.get(i));
+            i++;
+            listdata2.add(listdata.get(i));
+            i++;
+            listdata3.add(listdata.get(i));
+            i++;
+            listdata4.add(listdata.get(i));
+            i++;
+        }
+
+//        for (int i = 0; i < 16; i++) {
+//            if((i+1 +4) %4 == 1) {
+//                listdata1.add(listdata.get(i));
+//            }
+//            else if((i+1 +4) %4 == 2) {
+//                listdata2.add(listdata.get(i));
+//            }
+//            if((i+1 +4) %4 == 3) {
+//                listdata3.add(listdata.get(i));
+//            }
+//            if((i+1 +4) %4 == 0) {
+//                listdata4.add(listdata.get(i));
+//            }
+//
+//        }
+
+        Long inst2 = System.nanoTime();;
+
+
+
+
+        System.out.println("_______");
+        System.out.println("_______");
+        System.out.println("_______" + listdata);
+        System.out.println("_______");
+        System.out.println("_______" + listdata1);
+        System.out.println("_______" + listdata2);
+        System.out.println("_______" + listdata3);
+        System.out.println("_______" + listdata4);
+        System.out.println("_______Elapsed Time: "+ (inst2 - inst1));
+    }
 
     @GetMapping("/get/getBaiBaoById/{id}")
     public Optional<BaiBao> getBaiBaoById(@PathVariable Long id) throws ResourceNotFoundException {
